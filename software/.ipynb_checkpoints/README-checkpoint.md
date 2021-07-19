@@ -23,8 +23,25 @@ Not much to say to new users except welcome! It goes without saying that once yo
 
 Should you be an existing `corr` user, wondering where some of your functionality has gone when interfacing to your ROACH/2, please [look here](https://casper-toolflow.readthedocs.io/projects/casperfpga/en/latest/migrating_from_corr.html) for a detailed explanation on **how to migrate to `casperfpga`**.
 
-## Installation ##
-[`casperfpga`](https://pypi.org/project/casperfpga/) is now available on the Python Package Index (PyPI) and can be installed via [`pip`](https://pip.pypa.io/en/stable/). However, should you need to interface with a SNAP board, your installation workflow involves the extra step of installing against `casperfpga's requirements.txt`.
+## Dependencies ##
+
+Python packages (for complete experiment):
+* casperfpga
+* usb
+* time
+* numpy
+* struct
+* sys
+* logging
+* datetime
+* serial
+* os
+* array
+* matplotlib
+* getpass
+* optparse
+
+See [`casperfpga`](https://pypi.org/project/casperfpga/) for full installation instructions.
 
 ```shell
 $ git clone https://github.com/casper-astro/casperfpga
@@ -34,41 +51,6 @@ $ sudo apt-get install python-pip
 $ sudo pip install -r requirements.txt
 $ sudo pip install casperfpga
 ```
-
-The distribution on the Python Package Index is, of course, a built-distribution; this contains an already-compiled version of the SKARAB programming utility `progska`, written in `C`. Operating Systems tested using `pip install casperfpga` include:
-
-1. Ubuntu 14.04 LTS
-2. Ubuntu 16.04 LTS
-3. Ubuntu 18.04 LTS
-4. Debian 8.x
-
-Unfortunately the success of your installation using `pip` depends on the host OS of the installation, and you might need to rebuild the utility using the C-compiler native to your OS. In short, follow the more traditional method of installing custom Python packages.
-
-```shell
-# remove current casperfpga install files
-$ cd /usr/local/lib/python2.7/dist-packages
-$ sudo rm -rf casper*
-
-# clone the repository to your working directory
-$ cd /path/to/working/directory
-$ git clone https://github.com/casper-astro/casperfpga.git
-$ cd casperfpga
-$ git checkout master
-$ sudo pip install -r requirements.txt
-$ sudo python setup.py install
-```
-
-To check that casperfpga has been installed correctly open an ipython session and import casperfpga. To avoid errors, move out of your cloned casperfpga repository directory before doing this test. `casperfpga.__version__` will output the build and githash version of your casperfpga library.
-
-```shell
-$ ipython
-```
-```python
-In [1]: import casperfpga
-In [2]: casperfpga.__version__
-```
-
-If you receive any errors after this please feel free to contact anyone on the [CASPER Mailing List](mailto:casper@lists.berkeley.edu), or check the [Mailing List Archive](http://www.mail-archive.com/casper@lists.berkeley.edu/) to see if your issue has been resolved already.
 
 ## FPGA Usage ##
 Introductory [tutorials](https://github.com/casper-astro/tutorials_devel) for ROACH2 are available on the CASPER-astro github.

@@ -8,4 +8,3 @@
 
 - [Cables](Supporting_Equipment/Equipment_Cables.md)
 - [Synthesizers](Supporting_Equipment/Synthesizers.md)
-- [noise sources](Supporting_Equipment/noise_sources/README.md)
