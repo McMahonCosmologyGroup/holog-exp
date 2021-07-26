@@ -1,9 +1,9 @@
-# Software #
+# Holography Software #
 
 This README will outline, and make reference to, the following:
 1. [Tutorials](#tutorials)
 2. [ROACH2 FPGA](#roach2-fpga)
-3. [Synthesizers](#synthesizers)
+3. [Syntonic Synthesizers](#syntonic-synthesizers)
 4. [Dependencies](#dependencies)
 5. [Contributing](#contributing)
 
@@ -25,9 +25,14 @@ fpga = casperfpga.CasperFpga('skarab_host or roach_name')
 fpga.upload_to_ram_and_program('your_file.fpg')
 ```
 
-## Syntonic Synthesizers##
+## Syntonic Synthesizers ##
 
-The syntonic synthesizers communicate with the computer via USB. 
+The [syntonic synthesizers](https://www.mrcy.com/products/rf-and-mixed-signal/signal-sources/ds-3000-microwave-synthesizer) communicate with the computer via USB.  To connect with the synthesizers, search USB connections via:
+
+```python
+import usb.core
+LOs = tuple(usb.core.find(find_all=True, idVendor=0x10c4, idProduct=0x8468))
+```
 
 ## Dependencies ##
 
