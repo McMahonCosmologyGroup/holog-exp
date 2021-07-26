@@ -19,7 +19,7 @@ if __name__ == '__main__':
     from optparse import OptionParser
 
     p = OptionParser()
-    p.set_usage('poco_init.py')
+    p.set_usage('poco_init_no_quant.py')
     p.set_description(__doc__)
 # here is where we can change integration time
     p.add_option('-l', '--acc_len', dest='acc_len', type='int',default=2*(2**28)/2048, #for low pass filter and amplifier this seems like a good value, though not tested with sig. gen. #	25 jan 2018: 0.01
@@ -48,8 +48,7 @@ try:
 
     print('Connecting to server %s ... ' %(roach)),
     fpga = casperfpga.katcp_fpga.KatcpFpga(roach) 
-    #fpga = casperfpga.CasperFpga(roach) # depending on when you installed 
-                                         # casperfpga, you may need to use this function rather than the one above.
+    #fpga = casperfpga.CasperFpga(roach) 
     time.sleep(1)
 
     if fpga.is_connected():
@@ -84,15 +83,18 @@ try:
     fpga.write_int('ctrl',0) 
     fpga.write_int('ctrl',1<<18) #issue a second trigger
     print 'done'
+
     print 'flushing channels...'
     for chan in range(1024):
+        #print '%i...'%chan,
         sys.stdout.flush()
-
+        #for input in range(4):
+        #    fpga.blindwrite('quant%i_addr'%input,struct.pack('>I',chan))
     print 'done'
 
     print "All set up. Try plotting using plot_cross_phase_no_quant.py"
 
 except KeyboardInterrupt:
-    poco.exit_clean()
+    poco.exit_clean(fpga)
 
-poco.exit_clean()
+poco.exit_clean(fpga)

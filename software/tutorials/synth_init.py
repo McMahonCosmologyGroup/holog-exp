@@ -6,17 +6,16 @@ July 19, 2021
 '''
 
 import usb.core
-import usb.util
-import time
 import numpy as np
-import struct
 import synth
 
-N = 9
 ENDPOINT_DEC=2 # always 2 according to user manual. 
 ENDPOINT_HEX=0x02
-F_OFFSET = 10 #MHz
-F =int(90.*1000./N) #MHz 
+
+N = 9
+F_TEST = 90 # GHz
+F_OFFSET = 10 # MHz
+F =int(F_TEST.*1000./N) # MHz 
 
 # Contact the synthesizer USB ports
 LOs = tuple(usb.core.find(find_all=True, idVendor=0x10c4, idProduct=0x8468))

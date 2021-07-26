@@ -1,13 +1,16 @@
 '''
 Functions for operating the Casper ROACH2 FPGA.
 '''
+'''
+Initialization script for the 
+'''
 
 import sys
 import logging
 import numpy as np
 import getpass
 
-def exit_fail():
+def exit_fail(fpga):
     print 'FAILURE DETECTED. Log entries:\n',lh.printMessages()
     try:
         fpga.stop()
@@ -15,7 +18,7 @@ def exit_fail():
     raise
     exit()
 
-def exit_clean():
+def exit_clean(fpga):
     try:
         fpga.stop()
     except: pass
