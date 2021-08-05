@@ -6,7 +6,7 @@ Two synthesizers from [Mercury](https://www.mrcy.com/) are used in holography. T
 The synthesizers are controlled with USB.
 
 ## Signal Source ##
-A source from [Virginia Diodes](https://www.vadiodes.com/en/products/custom-transmitters) actively multiplies the signal to the desired frequency range. 
+The source is a [Virginia Diodes](https://www.vadiodes.com/en/products/custom-transmitters) 75-170 GHz Modular Transmitter (S/N:Tx 182) which actively multiplies the signal to the desired frequency range. 
 
 ## Harmonic Mixers and Diplexers ##
 Two [harmonic mixers](http://pacificmillimeter.com/HarmonicMixers.html) detect the signal (either modulated or non-modulated by the device being tested).  The exact model depends on the frequency of the signal in the experiment. 

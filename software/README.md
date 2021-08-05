@@ -9,7 +9,7 @@ This README will outline, and make reference to, the following:
 
 ## Tutorials ##
 
-Operational [tutorials](tutorials/) for how to operate the holography experiment are available on the McMahonGroupLab github page.
+Operational [tutorials](scripts/) for how to operate the holography experiment are available on the McMahonGroupLab github page.
 * tutorial 1
 * tutorial 2
 * tutorial 3
