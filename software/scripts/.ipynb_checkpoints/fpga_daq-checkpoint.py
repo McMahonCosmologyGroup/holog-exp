@@ -1,10 +1,15 @@
+"""
+Functions used to grab data from a wideband Pocket correlator and plotting it using numpy/pylab. Designed for use with TUT4 at the 2009 CASPER workshop.
+Grace E. Chesmore, August 2021
+"""
+
 import time
 import struct
 import sys
 import array
 import numpy as np
 import matplotlib
-matplotlib.use('TkAgg') # do this before importing pylab
+matplotlib.use('TkAgg') 
 import matplotlib.pyplot as plt
 import synth
 

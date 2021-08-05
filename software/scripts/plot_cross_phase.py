@@ -41,7 +41,7 @@ def running_mean(x, N):
 if __name__ == "__main__":
 
     p = OptionParser()
-    p.set_usage("poco_init_no_quant.py")
+    p.set_usage("poco_init.py")
     p.set_description(__doc__)
     p.add_option(
         "-s",

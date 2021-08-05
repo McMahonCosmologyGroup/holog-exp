@@ -9,10 +9,10 @@ This README will outline, and make reference to, the following:
 
 ## Tutorials ##
 
-Operational [tutorials](tutorials/) for how to operate the holography experiment are available on the McMahonGroupLab github page.
-* tutorial 1
-* tutorial 2
-* tutorial 3
+Operational [scripts](scripts/) for how to operate the holography experiment are available on the McMahonGroupLab github page.
+* [Syntonic synthesizer operations](scripts/synth.py) and [initialization](scripts/synth_init.py).
+* [ROACH2 FPGA operations](scripts/poco.py), [initialization](scripts/poco_init.py) and [real-time signal readout](scripts/plot_cross.py).
+* Saving to datafiles and further analysis.
 
 ## ROACH2 FPGA ##
 `casperfpga` is a python library used to interact and interface with [**CASPER** Hardware](https://github.com/casper-astro/casper-hardware). This includes reading and writing registers in the experiment.  Installation instructions here: [`casperfpga`](https://pypi.org/project/casperfpga/) for full installation instructions.
