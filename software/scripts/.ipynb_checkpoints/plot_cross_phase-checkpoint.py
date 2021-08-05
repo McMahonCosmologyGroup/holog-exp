@@ -9,13 +9,11 @@ Modified: Grace E. Chesmore, October 2020
 
 import casperfpga
 import time
-import struct
 import sys
 import logging
 import numpy as np
 import usb.core
 import matplotlib
-
 matplotlib.use("TkAgg")  # do this before importing pylab
 import matplotlib.pyplot as plt
 import synth

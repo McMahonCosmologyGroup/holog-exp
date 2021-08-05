@@ -1,17 +1,8 @@
-import casperfpga
 import time
 import struct
 import sys
-import logging
 import array
-import os
 import numpy as np
-import datetime
-import serial
-import usb.core
-import usb.util
-import datetime
-import getpass
 import matplotlib
 matplotlib.use('TkAgg') # do this before importing pylab
 import matplotlib.pyplot as plt
