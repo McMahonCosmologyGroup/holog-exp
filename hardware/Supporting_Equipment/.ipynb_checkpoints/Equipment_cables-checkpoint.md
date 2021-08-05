@@ -2,11 +2,21 @@
 
 ## Power Cables
 
-### ROACH
+### ROACH2 FPGA
 
-The ROACH2 uses a standard [ATX form-factor](link) power supplies and cables.
+The ROACH2 uses [ATX form-factor](https://en.wikipedia.org/wiki/ATX#Power_supply) power supplies and cables.
 
-### SMA
+## Serial Cables 
+
+### ROACH2 FPGA
+
+A standard [ethernet](https://en.wikipedia.org/wiki/Ethernet_over_twisted_pair) cable connects a computer system to the ROACH's serial port. 
+
+### Syntonic Synthesizers
+
+Both synthesizers are programmed by the computer via a USB, which acts as a serial port. One could use a serial connection other than USB as long as it acts as a serial port when communicating with the computer.
+
+## SMA Connections
 
 The BEE2 and IBOB boards use a custom 5-pin inline connector for their
 RS-232 interfaces. A wiring diagram for this cable can be found
