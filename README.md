@@ -2,7 +2,7 @@
 Author: Grace E. Chesmore
 
 ## Background
-Radio-frequency holography measures the electric field with a moving receiver, and uses measured phase information to map the propagation of the field through space.  This repository is an open-source guide to building a holographic imaging seutp for millimeter-wave experiments.
+Radio-frequency holography measures the electric field with a moving probe, and maps the propagation of the field through space using the measured phase information.  This repository is an open-source guide to building a holographic imaging seutp for millimeter-wave experiments.
 
 ## Project Status
 

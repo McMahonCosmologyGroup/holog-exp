@@ -7,25 +7,25 @@ Modified: Tyrone van Balla, November 2015
 Modified: Grace E. Chesmore, October 2020
 """
 
-import casperfpga
 import time
 import sys
 import logging
+from optparse import OptionParser
 import numpy as np
 import usb.core
 import matplotlib
 matplotlib.use("TkAgg")  # do this before importing pylab
 import matplotlib.pyplot as plt
+import casperfpga
 import synth
 import fpga_daq
 import poco
-from optparse import OptionParser
 
 # Added by Charlie 2019-11-04
-ylim_lo = 1.0e8
-ylim_hi = 1.0e10
-xlim_lo = 950
-xlim_hi = 1000
+YLIM_LO = 1.0e8
+YLIM_HI = 1.0e10
+XLIM_LO = 950
+XLIM_HI = 1000
 
 sys.setrecursionlimit(3000)  # by ATJ, to get longer recursion time.
 
@@ -92,12 +92,12 @@ if __name__ == "__main__":
 
 try:
     loggers = []
-    lh = poco.DebugLogHandler()
+    lh = poco.debug_loghandler()
     logger = logging.getLogger(roach)
     logger.addHandler(lh)
     logger.setLevel(10)
 
-    print ("Connecting to server %s ... " % (roach)),
+    print("Connecting to server %s ... " % (roach)),
 
     # fpga = casperfpga.CasperFpga(roach)
     fpga = casperfpga.katcp_fpga.KatcpFpga(roach)
@@ -105,19 +105,19 @@ try:
     time.sleep(5)
 
     if fpga.is_connected():
-        print "ok\n"
+        print("ok\n")
     else:
-        print "ERROR connecting to server %s.\n" % (roach)
+        print("ERROR connecting to server %s.\n" % (roach))
         poco.exit_fail(fpga)
     ### #prepare synths ###
     LOs = tuple(usb.core.find(find_all=True, idVendor=0x10C4, idProduct=0x8468))
-    print LOs[0].bus, LOs[0].address
-    print LOs[1].bus, LOs[1].address
+    print(LOs[0].bus, LOs[0].address)
+    print(LOs[1].bus, LOs[1].address)
 
     if (LOs[0] is None) or (LOs[1] is None):  # Was device found?
         raise ValueError("Device not found.")
-    else:
-        print (str(np.size(LOs)) + " device(s) found:")
+#     else:
+#         print (str(np.size(LOs)) + " device(s) found:")
 
     ii = 0
     while ii < np.size(LOs):
@@ -128,21 +128,21 @@ try:
             LOs[ii].detach_kernel_driver(0)
         LOs[ii].set_configuration()
         ii = ii + 1
-    synth.set_RF_output(
-        0, 1, synth.synth_opt, LOs
+    synth.set_rf_output(
+        0, 1, synth.SynthOpt, LOs
     )  # Turn on the RF output. (device,state,synth options,LOs)
-    synth.set_RF_output(1, 1, synth.synth_opt, LOs)
+    synth.set_rf_output(1, 1, synth.SynthOpt, LOs)
     ### end synth prep ###
 
     # set up the figure with a subplot for each polarisation to be plotted
-    fig = matplotlib.pyplot.figure()
+    fig = plt.figure()
 
     # start the process    (this also might be wrong)
     fig.canvas.manager.window.after(
-        100, drawDataCallback, baseline, fpga, synth.synth_opt, LOs
+        100, drawDataCallback, baseline, fpga, synth.SynthOpt, LOs
     )
-    matplotlib.pyplot.show()
-    print "Plotting complete. Exiting..."
+    plt.show()
+    print("Plotting complete. Exiting...")
 
 except KeyboardInterrupt:
     poco.exit_clean(fpga)
