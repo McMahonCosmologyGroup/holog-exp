@@ -23,8 +23,6 @@ print(LOs[1].bus, LOs[1].address)
 # Was device found?
 if ((LOs[0] is None) or (LOs[1] is None)):
     raise ValueError('Device not found.')
-else:
-    print(str(np.size(LOs))+' device(s) found:')
 
 NUM=0
 while NUM< np.size(LOs):

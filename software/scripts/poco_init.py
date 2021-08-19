@@ -10,7 +10,6 @@ import sys
 import logging
 import casperfpga
 import fpga_daq
-from optparse import OptionParser
 import poco
 
 roach,opts,BIT_S = fpga_daq.roach2_init()
@@ -18,7 +17,7 @@ roach,opts,BIT_S = fpga_daq.roach2_init()
 try:
 
     loggers = []
-    lh = poco.debug_loghandler()
+    lh = poco.DebugLogHandler()
     logger = logging.getLogger(roach)
     logger.addHandler(lh)
     logger.setLevel(10)

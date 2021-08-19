@@ -3,25 +3,28 @@ Functions for operating the Casper ROACH2 FPGA.
 Grace E. Chesmore
 July 19, 2021
 '''
-import sys
 import logging
+import sys
 
-def exit_fail(fpga,lh):
-    print('FAILURE DETECTED. Log entries:\n',lh.printMessages())
+def exit_fail(fpga,l_handler):
+    """Exit and print failure statement."""
+    print('FAILURE DETECTED. Log entries:\n',l_handler.printMessages())
     try:
         fpga.stop()
-    except: pass
-    raise
+    except:
+        pass
     sys.exit()
 
 def exit_clean(fpga):
+    """Exit and clean FPGA."""
     try:
         fpga.stop()
-    except:pass
+    except:
+        pass
     sys.exit()
 
  # debug log handler
-class debug_loghandler(logging.Handler):
+class DebugLogHandler(logging.Handler):
     """A logger for KATCP tests."""
 
     def __init__(self,max_len=100):
@@ -35,7 +38,8 @@ class debug_loghandler(logging.Handler):
 
     def emit(self, record):
         """Handle the arrival of a log message."""
-        if len(self._records) >= self._max_len: self._records.pop(0)
+        if len(self._records) >= self._max_len:
+            self._records.pop(0)
         self._records.append(record)
 
     def clear(self):
@@ -43,9 +47,12 @@ class debug_loghandler(logging.Handler):
         self._records = []
 
     def set_max_len(self,max_len):
+        """The maximum number of log entries to store.
+            After this, will wrap."""
         self._max_len=max_len
 
     def print_messages(self):
+        """Printing in cases of ERROR."""
         for i in self._records:
             if i.exc_info:
                 print('%s: %s Exception: '%(i.name,i.msg),i.exc_info[0:-1])
@@ -58,4 +65,3 @@ class debug_loghandler(logging.Handler):
                     print('%s: %s'%(i.name,i.msg))
                 else:
                     print('%s: %s'%(i.name,i.msg))
-                    

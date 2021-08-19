@@ -1,12 +1,9 @@
 """
-Functions used to grab data from a wideband Pocket correlator and plotting it using numpy/pylab. Designed for use with TUT4 at the 2009 CASPER workshop.
+Functions used to grab data from a wideband
+Pocket correlator and plotting it using numpy/pylab.
+Designed for use with TUT4 at the 2009 CASPER workshop.
 Grace E. Chesmore, August 2021
 """
-
-
-
-
-
 
 import struct
 import time
@@ -16,16 +13,12 @@ import numpy as np
 import synth
 import time
 import sys
-import logging
-import casperfpga
-import fpga_daq
 from optparse import OptionParser
-import poco
+
 plt.style.use('ggplot')
 
 def running_mean(x, N):
     return np.convolve(x, np.ones((N,)) / N)[(N - 1) :]
-
 
 class RoachOpt:
     '''
@@ -79,7 +72,7 @@ def get_data(baseline,fpga):
         interleave_auto_b.append(b_1[i])
 
     return acc_n,interleave_cross_a,interleave_cross_b,interleave_auto_a,interleave_auto_b
-    
+
 def roach2_init():
 
     p = OptionParser()
@@ -190,8 +183,6 @@ def draw_data_callback(baseline,fpga,syn,LOs,fig):
     freq = np.linspace(0,RoachOpt.f_max_MHz,len(np.abs(interleave_cross_a)))
     x_index = np.linspace(0,1024,len(np.abs(interleave_cross_a)))
 
-    which = 0
-
     arr_index_signal=[]
 
     interleave_auto_a = np.array(interleave_auto_a)
@@ -214,23 +205,23 @@ def draw_data_callback(baseline,fpga,syn,LOs,fig):
     plt.ylim(1e3,1e10)
     plt.xlim(500,800)
 
-    arr_index_signal = np.argpartition(val_copy_i_eval, -2)[-2:]
+#     arr_index_signal = np.argpartition(val_copy_i_eval, -2)[-2:]
     # grab the indices of the two largest signals.
 
     plt.ylabel('Running Power: Cross')
     plt.title('Integration number %i \n%s'%(acc_n,baseline))
 
-    #Find peak cross signal, print value and the freq. at which it occurs
-    if arr_index_signal[1] != 0 and arr_index_signal[1] != 1 and arr_index_signal[1] != 2 and arr_index_signal[1] != 3:
-        index_signal = arr_index_signal[1]
-    else:
-        index_signal = arr_index_signal[0]
+#     #Find peak cross signal, print value and the freq. at which it occurs
+#     if arr_index_signal[1] != 0 and arr_index_signal[1] != 1 and arr_index_signal[1] != 2 and arr_index_signal[1] != 3:
+#         index_signal = arr_index_signal[1]
+#     else:
+#         index_signal = arr_index_signal[0]
     
-    power_cross = (np.abs(interleave_cross_a))[index_signal]
-    arr_phase = np.degrees(np.angle(interleave_cross_a))
+#     power_cross = (np.abs(interleave_cross_a))[index_signal]
+#     arr_phase = np.degrees(np.angle(interleave_cross_a))
 
-    power_auto_a = (np.abs(interleave_auto_a))[index_signal]
-    power_auto_b = (np.abs(interleave_auto_b))[index_signal]
+#     power_auto_a = (np.abs(interleave_auto_a))[index_signal]
+#     power_auto_b = (np.abs(interleave_auto_b))[index_signal]
 
     fig.canvas.manager.window.after(100, draw_data_callback,baseline,fpga,syn,LOs,fig)
     plt.show()

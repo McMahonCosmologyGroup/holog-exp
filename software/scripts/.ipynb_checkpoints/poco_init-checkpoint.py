@@ -4,71 +4,20 @@ Grace E. Chesmore
 July 19, 2021
 """
 
+
 import time
 import sys
 import logging
 import casperfpga
 import fpga_daq
-from optparse import OptionParser
 import poco
 
-BITSREAM = "t4_roach2_noquant_fftsat.fpg"
-
-if __name__ == "__main__":
-
-    p = OptionParser()
-    p.set_usage("poco_init.py")
-    p.set_description(__doc__)
-    # here is where we can change integration time
-    p.add_option(
-        "-l",
-        "--acc_len",
-        dest="acc_len",
-        type="int",
-        default=2
-        * (2 ** 28)
-        / 2048,# for low pass filter and
-            # amplifier this seems
-            # like a good value, though
-            # not tested with sig. gen.
-            # 25 jan 2018: 0.01
-        help="Set the number of vectors to accumulate between dumps. default is 2*(2^28)/2048.",
-    )  # for roach full setup.
-    p.add_option(
-        "-g",
-        "--gain",
-        dest="gain",
-        type="int",
-        default=2,
-        help="Set the digital gain (4bit quantisation scalar). default is 2.",
-    )
-    p.add_option(
-        "-s",
-        "--skip",
-        dest="skip",
-        action="store_true",
-        help="Skip reprogramming the FPGA and configuring EQ.",
-    )
-    p.add_option(
-        "-f",
-        "--fpg",
-        dest="fpgfile",
-        type="str",
-        default="",
-        help="Specify the bof file to load",
-    )
-    opts, args = p.parse_args(sys.argv[1:])
-    roach = fpga_daq.roach.ip
-
-    if opts.fpgfile != "":
-        BIT_S = opts.fpgfile
-    else:
-        BIT_S = BITSREAM
+roach,opts,BIT_S = fpga_daq.roach2_init()
 
 try:
 
     loggers = []
-    lh = poco.debug_loghandler()
+    lh = poco.DebugLogHandler()
     logger = logging.getLogger(roach)
     logger.addHandler(lh)
     logger.setLevel(10)
