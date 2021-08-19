@@ -135,8 +135,8 @@ def data_callback_peak(baseline,fpga,syn,LOs):
     # (device, state) You must have the device's
     # RF output in state (1) before doing this.
 
-    synth.set_f(0,syn.F,syn,LOs)
-    synth.set_f(1,int(syn.F+syn.F_OFFSET),syn,LOs)
+    synth.set_f(0,syn.freq,syn,LOs)
+    synth.set_f(1,int(syn.freq+syn.freq_offset),syn,LOs)
 
     IGNORE_PEAKS_BELOW = int(600)
     IGNORE_PEAKS_ABOVE = int(700)
@@ -172,8 +172,8 @@ def draw_data_callback(baseline,fpga,syn,LOs,fig):
     # (device, state) You must have the device's
     # RF output in state (1) before doing this.
 
-    synth.set_f(0,syn.F,syn,LOs)
-    synth.set_f(1,int(syn.F+syn.F_OFFSET),syn,LOs)
+    synth.set_f(0,syn.freq,syn,LOs)
+    synth.set_f(1,int(syn.freq+syn.freq_offset),syn,LOs)
 
     IGNORE_PEAKS_BELOW = int(0)
     IGNORE_PEAKS_ABOVE = int(1090)

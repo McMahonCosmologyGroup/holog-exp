@@ -32,8 +32,8 @@ XLIM_HI = 800
 sys.setrecursionlimit(3000)  # by ATJ, to get longer recursion time.
 
 N = 8
-F = int(115.0 * 1000.0 / N)  # MHz
-synth.SynthOpt.F = F
+freq = int(115.0 * 1000.0 / N)  # MHz
+synth.SynthOpt.freq = freq
 
 
 if __name__ == "__main__":
