@@ -29,6 +29,10 @@ class RoachOpt:
     f_max_MHz = (f_clock_MHz/4)
     katcp_port=7147
     ip ='192.168.4.20'
+    N_CHANNELS = 21
+    L_MEAN = 1
+    N_TO_AVG = 1
+    window = 1
 
 def get_data(baseline,fpga):
     '''
@@ -129,8 +133,8 @@ def data_callback_peak(baseline,fpga,syn,LOs):
     '''
     Print real-time signal measurement from ROACH.
     '''
-    l_mean =1
-    window = 1
+    l_mean = RoachOpt.L_MEAN
+    window = RoachOpt.window
     # Set the frequency of the RF output, in MHz.
     # (device, state) You must have the device's
     # RF output in state (1) before doing this.
@@ -204,24 +208,110 @@ def draw_data_callback(baseline,fpga,syn,LOs,fig):
 
     plt.ylim(1e3,1e10)
     plt.xlim(500,800)
-
-#     arr_index_signal = np.argpartition(val_copy_i_eval, -2)[-2:]
-    # grab the indices of the two largest signals.
-
     plt.ylabel('Running Power: Cross')
     plt.title('Integration number %i \n%s'%(acc_n,baseline))
-
-#     #Find peak cross signal, print value and the freq. at which it occurs
-#     if arr_index_signal[1] != 0 and arr_index_signal[1] != 1 and arr_index_signal[1] != 2 and arr_index_signal[1] != 3:
-#         index_signal = arr_index_signal[1]
-#     else:
-#         index_signal = arr_index_signal[0]
-    
-#     power_cross = (np.abs(interleave_cross_a))[index_signal]
-#     arr_phase = np.degrees(np.angle(interleave_cross_a))
-
-#     power_auto_a = (np.abs(interleave_auto_a))[index_signal]
-#     power_auto_b = (np.abs(interleave_auto_b))[index_signal]
-
     fig.canvas.manager.window.after(100, draw_data_callback,baseline,fpga,syn,LOs,fig)
     plt.show()
+
+def TakeAvgData(baseline,fpga):
+    N_CHANNELS = RoachOpt.N_CHANNELS
+    N_TO_AVG = RoachOpt.N_TO_AVG
+    arr_phase= np.zeros((N_CHANNELS,1))
+    arr_aa= np.zeros((N_CHANNELS,1))
+    arr_bb= np.zeros((N_CHANNELS,1))
+    arr_ab= np.zeros((N_CHANNELS,1))
+    arr_index =np.zeros((1,1))
+
+    arr2D_phase= np.zeros((N_TO_AVG,N_CHANNELS))#array of phase data, which I will take the mean of
+    arr2D_aa=np.zeros((N_TO_AVG,N_CHANNELS))
+    arr2D_bb=np.zeros((N_TO_AVG,N_CHANNELS))
+    arr2D_ab=np.zeros((N_TO_AVG,N_CHANNELS))
+    arr2D_index= np.zeros((N_TO_AVG,1))
+    j = 0
+    #to average according to each unique index of peak signal, rather than taking mean at the mean value of index of peak signal
+    arr_var_unique =np.zeros((N_TO_AVG,1)) # A test to see how well we can use mean data over 'N_TO_AVG'. 
+    while (j < N_TO_AVG):
+        #print('In TakeAvgData(), j = ('+str(j)+'/N_TO_AVG)'+' and we are about to drawDataCallback')
+        arr2D_aa[j],arr2D_bb[j],arr2D_ab[j],arr2D_phase[j], arr2D_index[j]=drawDataCallback(baseline,fpga) 
+        #^^^^take in data from the roach. see function "drawDataCallback" above for how this works. "arr2D" array take in data across all frequency bins of the roach. 
+        j = j+1    
+
+    arr_phase=arr2D_phase.mean(axis=0)
+    arr_aa=arr2D_aa.mean(axis=0)
+    arr_bb=arr2D_bb.mean(axis=0)
+    arr_ab=arr2D_ab.mean(axis=0)
+    arr_index=arr2D_index.mean(axis=0)
+
+    return arr_aa, arr_bb, arr_ab, arr_phase, arr_index
+
+def drawDataCallback(baseline,fpga):
+    IGNORE_PEAKS_BELOW = int(655)
+    IGNORE_PEAKS_ABOVE = int(660)
+
+    N_CHANNELS = RoachOpt.N_CHANNELS
+    N_TO_AVG = RoachOpt.N_TO_AVG
+    L_MEAN = RoachOpt.L_MEAN
+    #print('running get_data  function from drawDataCallback')
+    acc_n,interleave_cross_a,interleave_cross_b,interleave_auto_a,interleave_auto_b= get_data(baseline,fpga)
+    val=running_mean(np.abs(interleave_cross_a),L_MEAN)
+    val[int(IGNORE_PEAKS_ABOVE):]=0
+    val[: int(IGNORE_PEAKS_BELOW)]=0
+    arr_index_signal = np.argpartition(val, -2)[-2:]
+    index_signal = arr_index_signal[1]
+    # IS THIS NECESSARY? Probably not here, at least. freq = numpy.linspace(0,f_max_MHz,len(numpy.abs(interleave_cross_a)))
+    arr_ab = (np.abs(interleave_cross_a))
+    arr_phase = (180./np.pi)*np.unwrap((np.angle(interleave_cross_b)))
+    phase_signal = arr_phase[index_signal]
+    arr_aa = (np.abs(interleave_auto_a))
+    arr_bb = (np.abs(interleave_auto_b))
+
+    #Only record relevant channels, right around peak:
+    arr_aa = arr_aa[(index_signal - (N_CHANNELS/2)) : (1+index_signal + (N_CHANNELS/2))]
+    arr_bb = arr_bb[(index_signal - (N_CHANNELS/2)) : (1+index_signal + (N_CHANNELS/2))]
+    arr_ab = arr_ab[(index_signal - (N_CHANNELS/2)) : (1+index_signal + (N_CHANNELS/2))]
+    arr_phase = arr_phase[(index_signal - (N_CHANNELS/2)) : (1+index_signal + (N_CHANNELS/2))]
+
+    return running_mean(arr_aa,L_MEAN),running_mean(arr_bb,L_MEAN),running_mean(arr_ab,L_MEAN), arr_phase, index_signal
+
+def get_data(baseline,fpga):
+    #print('   start get_data function')
+    acc_n = fpga.read_uint('acc_num')
+    print '   Grabbing integration number %i'%acc_n
+
+    #get cross_correlation data...    
+    a_0r=struct.unpack('>512l',fpga.read('dir_x0_%s_real'%baseline,2048,0))
+    a_1r=struct.unpack('>512l',fpga.read('dir_x1_%s_real'%baseline,2048,0))
+    a_0i=struct.unpack('>512l',fpga.read('dir_x0_%s_imag'%baseline,2048,0))
+    a_1i=struct.unpack('>512l',fpga.read('dir_x1_%s_imag'%baseline,2048,0))
+    b_0i=struct.unpack('>512l',fpga.read('dir_x0_%s_imag'%baseline,2048,0))
+    b_1i=struct.unpack('>512l',fpga.read('dir_x1_%s_imag'%baseline,2048,0))
+    b_0r=struct.unpack('>512l',fpga.read('dir_x0_%s_real'%baseline,2048,0))
+    b_1r=struct.unpack('>512l',fpga.read('dir_x1_%s_real'%baseline,2048,0))
+    interleave_cross_a=[]
+    interleave_cross_b=[]
+
+    #get auto correlation data (JUST the A, B inputs)...
+    a_0=struct.unpack('>512l',fpga.read('dir_x0_bb_real',2048,0))
+    a_1=struct.unpack('>512l',fpga.read('dir_x1_bb_real',2048,0))
+    b_0=struct.unpack('>512l',fpga.read('dir_x0_dd_real',2048,0))
+    b_1=struct.unpack('>512l',fpga.read('dir_x1_dd_real',2048,0))
+    interleave_auto_a=[]
+    interleave_auto_b=[]
+
+
+    #interleave cross-correlation and auto correlation data.
+    for i in range(512):
+        #cross
+        interleave_cross_a.append(complex(a_0r[i], a_0i[i]))
+        interleave_cross_a.append(complex(a_1r[i], a_1i[i]))
+        interleave_cross_b.append(complex(b_0r[i], b_0i[i]))#For phase, new, test.
+        interleave_cross_b.append(complex(b_1r[i], b_1i[i]))#For phase, new, test
+
+        #auto
+        interleave_auto_a.append(a_0[i])#'interleave' even and odd timestreams back into the original timestream (b.c. sampling rate is 2x your FPGA clock). 
+        interleave_auto_a.append(a_1[i])
+        interleave_auto_b.append(b_0[i])#'interleave' even and odd timestreams back into the original timestream (b.c. sampling rate is 2x your FPGA clock). 
+        interleave_auto_b.append(b_1[i])
+
+    #print('   end get_data function')
+    return acc_n,interleave_cross_a,interleave_cross_b,interleave_auto_a,interleave_auto_b

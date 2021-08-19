@@ -8,7 +8,7 @@ import sys
 
 def exit_fail(fpga,l_handler):
     """Exit and print failure statement."""
-    print('FAILURE DETECTED. Log entries:\n',l_handler.printMessages())
+    print('FAILURE DETECTED. Log entries:\n',l_handler.print_messages())
     try:
         fpga.stop()
     except:
