@@ -16,6 +16,7 @@ import logging
 from optparse import OptionParser
 import usb.core
 import matplotlib
+
 matplotlib.use("TkAgg")  # do this before importing pylab
 import matplotlib.pyplot as plt
 import casperfpga
@@ -53,12 +54,10 @@ if __name__ == "__main__":
         "--acc_len",
         dest="acc_len",
         type="int",
-        default=0.5
-        * (2 ** 28)
-        / 2048,  # for low pass filter and amplifier
-                 # this seems like a good value,
-                 # though not tested with sig. gen.
-                 # 25 jan 2018: 0.01
+        default=0.5 * (2 ** 28) / 2048,  # for low pass filter and amplifier
+        # this seems like a good value,
+        # though not tested with sig. gen.
+        # 25 jan 2018: 0.01
         help="Set the number of vectors to accumulate between dumps. default is 2*(2^28)/2048.",
     )  # for roach full setup.
 
@@ -113,14 +112,14 @@ try:
 
     ### prepare synths ###
     LOs = tuple(usb.core.find(find_all=True, idVendor=0x10C4, idProduct=0x8468))
-    print("LO1 bus: %d, address: %d" %(LOs[0].bus, LOs[0].address))
-    print("LO2 bus: %d, address: %d" %(LOs[1].bus, LOs[1].address))
+    print("LO1 bus: %d, address: %d" % (LOs[0].bus, LOs[0].address))
+    print("LO2 bus: %d, address: %d" % (LOs[1].bus, LOs[1].address))
 
     if (LOs[0] is None) or (LOs[1] is None):  # Was device found?
         raise ValueError("Device not found.")
 
-    for ID,lo_num in enumerate(LOs):
-#     for ID in range(len(LOs)):
+    for ID, lo_num in enumerate(LOs):
+        #     for ID in range(len(LOs)):
         LOs[ID].reset()
         REATTACH = False  # Make sure the USB device is ready to receive commands.
         if LOs[ID].is_kernel_driver_active(0):
@@ -133,16 +132,16 @@ try:
     )  # Turn on the RF output. (device,state,synth options,LOs)
     synth.set_rf_output(1, 1, synth.SynthOpt, LOs)
     ### end synth prep ###
-    peak = fpga_daq.data_callback_peak(baseline,fpga,synth.SynthOpt,LOs)
+    peak = fpga_daq.data_callback_peak(baseline, fpga, synth.SynthOpt, LOs)
     print(peak)
     # set up the figure with a subplot for each polarisation to be plotted
     fig = plt.figure()
 
     # start the process    (this also might be wrong)
     fig.canvas.manager.window.after(
-        100, fpga_daq.draw_data_callback, baseline, fpga, synth.SynthOpt, LOs,fig
+        100, fpga_daq.draw_data_callback, baseline, fpga, synth.SynthOpt, LOs, fig
     )
-    plt.xlim(peak-100,peak+100)
+    plt.xlim(peak - 100, peak + 100)
     plt.show()
     print("Plotting complete. Exiting...")
 

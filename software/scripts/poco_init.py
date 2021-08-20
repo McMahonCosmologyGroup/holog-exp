@@ -12,7 +12,7 @@ import casperfpga
 import fpga_daq
 import poco
 
-roach,opts,BIT_S = fpga_daq.roach2_init()
+roach, opts, BIT_S = fpga_daq.roach2_init()
 
 try:
 
@@ -22,7 +22,7 @@ try:
     logger.addHandler(lh)
     logger.setLevel(10)
 
-    print("Connecting to server %s ... " %(roach))
+    print("Connecting to server %s ... " % (roach))
     fpga = casperfpga.katcp_fpga.KatcpFpga(roach)
     # fpga = casperfpga.CasperFpga(roach)
     time.sleep(1)
@@ -31,7 +31,7 @@ try:
         print("ok\n")
     else:
         print("ERROR connecting to server %s.\n" % (roach))
-        poco.exit_fail(fpga,lh)
+        poco.exit_fail(fpga, lh)
 
     print("------------------------")
     print("Programming FPGA...")
