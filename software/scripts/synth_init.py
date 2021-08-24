@@ -10,29 +10,31 @@ import synth
 
 
 N = 9
-F_TEST = 90  # GHz
+F_TEST = 95  # GHz
 F_OFFSET = 10  # MHz
 F = int(F_TEST * 1000.0 / N)  # MHz
 
 # Contact the synthesizer USB ports
-LOs = tuple(usb.core.find(find_all=True, idVendor=0x10C4, idProduct=0x8468))
-print(LOs)
-print(LOs[0].bus, LOs[0].address)
-print(LOs[1].bus, LOs[1].address)
 
-# Was device found?
-if (LOs[0] is None) or (LOs[1] is None):
-    raise ValueError("Device not found.")
+LOs = synth.synth_connect()
+# LOs = tuple(usb.core.find(find_all=True, idVendor=0x10C4, idProduct=0x8468))
+# print(LOs)
+# print(LOs[0].bus, LOs[0].address)
+# print(LOs[1].bus, LOs[1].address)
 
-NUM = 0
-while NUM < np.size(LOs):
-    LOs[NUM].reset()
-    REATTACH = False  # Make sure the USB device is ready to receive commands.
-    if LOs[NUM].is_kernel_driver_active(0):
-        REATTACH = True
-        LOs[NUM].detach_kernel_driver(0)
-    LOs[NUM].set_configuration()
-    NUM = NUM + 1
+# # Was device found?
+# if (LOs[0] is None) or (LOs[1] is None):
+#     raise ValueError("Device not found.")
+
+# NUM = 0
+# while NUM < np.size(LOs):
+#     LOs[NUM].reset()
+#     REATTACH = False  # Make sure the USB device is ready to receive commands.
+#     if LOs[NUM].is_kernel_driver_active(0):
+#         REATTACH = True
+#         LOs[NUM].detach_kernel_driver(0)
+#     LOs[NUM].set_configuration()
+#     NUM = NUM + 1
 
 synth.set_rf_output(0, 1, synth.SynthOpt, LOs)
 # Turn on the RF output (device,state).

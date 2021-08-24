@@ -4,6 +4,9 @@ Grace E. Chesmore
 July 19, 2021
 """
 import struct
+import usb.core
+import numpy as np
+import synth
 
 
 class SynthOpt:
@@ -14,8 +17,8 @@ class SynthOpt:
     endpoint_dec = 2  # always 2 according to user manual.
     endpoint_hex = 0x02
     freq = 0
-    freq_offset = 10  # MHz
-
+    freq_offset = 5  # MHz
+    N=0
 
 def set_rf_output(device, state, syn, los):
     """
@@ -31,7 +34,6 @@ def set_rf_output(device, state, syn, los):
     data[3] = state
     los[int(device)].write(syn.endpoint_dec, data)
 
-
 def reset_rf(device, syn):
     """
     for state, e.g. '1' for command '0x02' will turn ON the RF output.
@@ -45,7 +47,6 @@ def reset_rf(device, syn):
     data[2] = n_command
     data[3] = 0x00  # state
     device.write(syn.endpoint_dec, data)
-
 
 def set_100_output(device, state, syn):
     """
@@ -61,6 +62,25 @@ def set_100_output(device, state, syn):
     data[3] = state
     device.write(syn.endpoint_dec, str(data))
 
+def synth_connect():
+
+    LOs = tuple(usb.core.find(find_all=True, idVendor=0x10C4, idProduct=0x8468))
+    print("LO1 bus: %d, address: %d" % (LOs[0].bus, LOs[0].address))
+    print("LO2 bus: %d, address: %d" % (LOs[1].bus, LOs[1].address))
+
+    if (LOs[0] is None) or (LOs[1] is None):  # Was device found?
+        raise ValueError("Device not found.")
+
+    for ID, lo_num in enumerate(LOs):
+        #     for ID in range(len(LOs)):
+        LOs[ID].reset()
+        REATTACH = False  # Make sure the USB device is ready to receive commands.
+        if LOs[ID].is_kernel_driver_active(0):
+            REATTACH = True
+            LOs[ID].detach_kernel_driver(0)
+        LOs[ID].set_configuration()
+
+    return LOs
 
 def set_f(device, freq, syn, los):
     """
@@ -77,9 +97,6 @@ def set_f(device, freq, syn, los):
     data[1] = n_bytes
     data[2] = n_command
     i_strt = 3
-
-    # During testing: option to print bytes.
-    # print("in set_f, bytes = :" + str(bytes))
 
     for index in range(5):
         data[int(index + i_strt)] = int(bytes[index + i_strt], 16)

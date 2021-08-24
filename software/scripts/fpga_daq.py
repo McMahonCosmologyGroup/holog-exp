@@ -6,13 +6,16 @@ Grace E. Chesmore, August 2021
 """
 
 import struct
+import logging
 import time
 from optparse import OptionParser
 import sys
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+import casperfpga
 import synth
+import poco
 
 plt.style.use("ggplot")
 
@@ -22,7 +25,6 @@ def running_mean(arr, num):
     Convolves an array with a given integer.
     """
     return np.convolve(arr, np.ones((num,)) / num)[(num - 1) :]
-
 
 class RoachOpt:
     """
@@ -38,7 +40,6 @@ class RoachOpt:
     l_mean = 1
     N_TO_AVG = 1
     window = 1
-
 
 def get_data(baseline, fpga):
     """
@@ -89,7 +90,6 @@ def get_data(baseline, fpga):
         interleave_auto_b,
     )
 
-
 def roach2_init():
     """
     Initializes the ROACH2 settings.
@@ -103,7 +103,7 @@ def roach2_init():
         "--acc_len",
         dest="acc_len",
         type="int",
-        default=2 * (2 ** 28) / 2048,  # for low pass filter and
+        default=0.5 * (2 ** 28) / 2048,  # for low pass filter and
         # amplifier this seems
         # like a good value, though
         # not tested with sig. gen.
@@ -133,6 +133,15 @@ def roach2_init():
         default="",
         help="Specify the bof file to load",
     )
+    p.add_option(
+        "-c",
+        "--cross",
+        dest="cross",
+        type="str",
+        default="bd",
+        help="Plot this cross correlation magnitude and phase. default: bd",
+    )
+
     opts, args = p.parse_args(sys.argv[1:])
     roach = RoachOpt.ip
 
@@ -142,6 +151,27 @@ def roach2_init():
         bit_stream = RoachOpt.BITSTREAM
     return roach, opts, bit_stream
 
+def roach2_connect(ROACH_IP):
+    loggers = []
+    lh = poco.DebugLogHandler()
+    logger = logging.getLogger(ROACH_IP)
+    logger.addHandler(lh)
+    logger.setLevel(10)
+
+    print("Connecting to server %s ... " % (ROACH_IP))
+
+    # fpga = casperfpga.CasperFpga(roach)
+    fpga = casperfpga.katcp_fpga.KatcpFpga(ROACH_IP)
+
+    time.sleep(5)
+
+    if fpga.is_connected():
+        print("ok\n")
+    else:
+        print("ERROR connecting to server %s.\n" % (ROACH_IP))
+        poco.exit_fail(fpga)
+
+    return fpga
 
 def data_callback_peak(baseline, fpga, syn, LOs):
     """
@@ -155,8 +185,10 @@ def data_callback_peak(baseline, fpga, syn, LOs):
     synth.set_f(0, syn.freq, syn, LOs)
     synth.set_f(1, int(syn.freq + syn.freq_offset), syn, LOs)
 
-    IGNORE_PEAKS_BELOW = int(600)
-    IGNORE_PEAKS_ABOVE = int(700)
+    peak_guess = (1024/125)*(syn.N * syn.freq_offset)
+
+    IGNORE_PEAKS_BELOW = int(peak_guess-50)
+    IGNORE_PEAKS_ABOVE = int(peak_guess+50)
 
     (
         acc_n,
@@ -189,7 +221,6 @@ def data_callback_peak(baseline, fpga, syn, LOs):
         index_signal = arr_index_signal[0]
 
     return index_signal
-
 
 def draw_data_callback(baseline, fpga, syn, LOs, fig):
     """
@@ -244,7 +275,6 @@ def draw_data_callback(baseline, fpga, syn, LOs, fig):
     )
     plt.show()
 
-
 def TakeAvgData(baseline, fpga):
     """
     Averages each FPGA channel, AA, AB, and BB.
@@ -287,7 +317,6 @@ def TakeAvgData(baseline, fpga):
     arr_index = arr_2D_index.mean(axis=0)
 
     return arr_aa, arr_bb, arr_ab, arr_phase, arr_index
-
 
 def drawDataCallback(baseline, fpga):
     """

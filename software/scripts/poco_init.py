@@ -61,13 +61,11 @@ try:
 
     print("flushing channels...")
     for chan in range(1024):
-        # print '%i...'%chan,
         sys.stdout.flush()
-        # for input in range(4):
-        #    fpga.blindwrite('quant%i_addr'%input,struct.pack('>I',chan))
+
     print("done")
 
-    print("All set up. Try plotting using plot_cross_phase_no_quant.py")
+    print("Casper ROACH2 FPGA is set up.")
 
 except KeyboardInterrupt:
     poco.exit_clean(fpga)

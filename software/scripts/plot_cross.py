@@ -12,11 +12,8 @@ Modified: Grace E. Chesmore, August 2021
 
 import time
 import sys
-import logging
-from optparse import OptionParser
 import usb.core
 import matplotlib
-
 matplotlib.use("TkAgg")  # do this before importing pylab
 import matplotlib.pyplot as plt
 import casperfpga
@@ -32,100 +29,20 @@ XLIM_HI = 800
 
 sys.setrecursionlimit(3000)  # by ATJ, to get longer recursion time.
 
-N = 8
-freq = int(115.0 * 1000.0 / N)  # MHz
+synth.SynthOpt.N = 8
+freq = int(95.0 * 1000.0 / synth.SynthOpt.N)  # MHz
 synth.SynthOpt.freq = freq
 
-
-if __name__ == "__main__":
-
-    p = OptionParser()
-    p.set_usage("poco_init.py")
-    p.set_description(__doc__)
-    p.add_option(
-        "-s",
-        "--skip",
-        dest="skip",
-        action="store_true",
-        help="Skip reprogramming the FPGA and configuring EQ.",
-    )
-    p.add_option(
-        "-l",
-        "--acc_len",
-        dest="acc_len",
-        type="int",
-        default=0.5 * (2 ** 28) / 2048,  # for low pass filter and amplifier
-        # this seems like a good value,
-        # though not tested with sig. gen.
-        # 25 jan 2018: 0.01
-        help="Set the number of vectors to accumulate between dumps. default is 2*(2^28)/2048.",
-    )  # for roach full setup.
-
-    p.add_option(
-        "-c",
-        "--cross",
-        dest="cross",
-        type="str",
-        default="bd",
-        help="Plot this cross correlation magnitude and phase. default: bd",
-    )
-    p.add_option(
-        "-g",
-        "--gain",
-        dest="gain",
-        type="int",
-        default=2,
-        help="Set the digital gain (4bit quantisation scalar). default is 2.",
-    )
-    p.add_option(
-        "-f",
-        "--fpg",
-        dest="fpgfile",
-        type="str",
-        default="",
-        help="Specify the bof file to load",
-    )
-
-    opts, args = p.parse_args(sys.argv[1:])
-    ROACH_IP = fpga_daq.RoachOpt.ip
-    baseline = opts.cross
+roach, opts, BIT_S = fpga_daq.roach2_init()
+ROACH_IP = fpga_daq.RoachOpt.ip
+baseline = opts.cross
 
 try:
-    loggers = []
-    lh = poco.DebugLogHandler()
-    logger = logging.getLogger(ROACH_IP)
-    logger.addHandler(lh)
-    logger.setLevel(10)
 
-    print("Connecting to server %s ... " % (ROACH_IP))
-
-    # fpga = casperfpga.CasperFpga(roach)
-    fpga = casperfpga.katcp_fpga.KatcpFpga(ROACH_IP)
-
-    time.sleep(5)
-
-    if fpga.is_connected():
-        print("ok\n")
-    else:
-        print("ERROR connecting to server %s.\n" % (ROACH_IP))
-        poco.exit_fail(fpga)
-
-    ### prepare synths ###
-    LOs = tuple(usb.core.find(find_all=True, idVendor=0x10C4, idProduct=0x8468))
-    print("LO1 bus: %d, address: %d" % (LOs[0].bus, LOs[0].address))
-    print("LO2 bus: %d, address: %d" % (LOs[1].bus, LOs[1].address))
-
-    if (LOs[0] is None) or (LOs[1] is None):  # Was device found?
-        raise ValueError("Device not found.")
-
-    for ID, lo_num in enumerate(LOs):
-        #     for ID in range(len(LOs)):
-        LOs[ID].reset()
-        REATTACH = False  # Make sure the USB device is ready to receive commands.
-        if LOs[ID].is_kernel_driver_active(0):
-            REATTACH = True
-            LOs[ID].detach_kernel_driver(0)
-        LOs[ID].set_configuration()
+    # Connect to ROACH2 FPGA
+    fpga = fpga_daq.roach2_connect(ROACH_IP)
+    # Connect to synthesizers
+    LOs = synth.synth_connect()
 
     synth.set_rf_output(
         0, 1, synth.SynthOpt, LOs
@@ -141,6 +58,7 @@ try:
     fig.canvas.manager.window.after(
         100, fpga_daq.draw_data_callback, baseline, fpga, synth.SynthOpt, LOs, fig
     )
+    print(peak-100)
     plt.xlim(peak - 100, peak + 100)
     plt.show()
     print("Plotting complete. Exiting...")
