@@ -6,7 +6,7 @@ This README will outline, and make reference to, the following:
 
 ## ROACH2 FPGA ##
 
-![Closer look at the ROACH2 FPGA.](photos/roach.png "A closer look at the ROACH2.")
+![Closer look at the ROACH2 FPGA.](photos/roach.jpg "A closer look at the ROACH2.")
 
 Processing the measured signals requires an FPGA. Holography at UChicago uses the Casper ROACHH2 board. ROACH stands for Reconfigurable Open Architecture Computing Hardware.  The full hardware specifications can be found at the [Casper ROACH2 public repository](https://github.com/casper-astro/casper-hardware/tree/master/FPGA_Hosts/ROACH2). 
 
