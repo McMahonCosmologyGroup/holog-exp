@@ -6,7 +6,7 @@ This README will outline, and make reference to, the following:
 
 The schematic below serves as an example setup for performing holography. This is also the setup used at the University of Chicago in 2021. 
 
-<img src = 'photos/rf_holog.png' alt="centered image" style="width:500px;height:600px;" >
+<img src = 'photos/rf_holog.png' alt="centered image" style="width:250px;height:300px;" >
 
 ## ROACH2 FPGA ##
 
