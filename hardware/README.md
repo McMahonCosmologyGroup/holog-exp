@@ -5,7 +5,7 @@ This README will outline, and make reference to, the following:
 2. [Supporting Equipment](#supporting-equipment)
 
 The schematic below serves as an example setup for performing holography. This is also the setup used at the University of Chicago in 2021. 
-<img src = 'photos/latrt_v2.pdf' alt="centered image" >
+<img src = 'photos/rf_holog.png' alt="centered image" >
 
 ## ROACH2 FPGA ##
 
