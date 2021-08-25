@@ -1,5 +1,6 @@
 # Open Source Holography
 Author: Grace E. Chesmore
+
 Email: [chesmore@uchicago.edu](mailto:chesmore@uchicago.edu)
 
 ## Background
@@ -15,4 +16,4 @@ This Github repository hosts open-source holography hardware design and software
 
 ### Schematics
 
-You can find the schematics [here](schematics/)
+You can find the schematics [here](hardware/photos)
