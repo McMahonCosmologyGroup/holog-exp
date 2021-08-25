@@ -6,13 +6,51 @@ This README will outline, and make reference to, the following:
 
 The schematic below serves as an example setup for performing holography. This is also the setup used at the University of Chicago in 2021. 
 
+
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+<style>
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+
+<body>
+
+<h2>Two Equal Columns</h2>
+
+<div class="row">
+  <div class="column" style="background-color:#aaa;">
+    <h2>Column 1</h2>
+    <p>Some text..</p>
+  </div>
+  <div class="column" style="background-color:#bbb;">
+    <h2>Column 2</h2>
+    <p>Some text..</p>
+  </div>
+</div>
+    
 <div class="row">
   <div class="column" float: left; width: 50%;></div>
     <img src = 'photos/rf_holog.png' alt="RF Holography Setup" width="300"  >
   <div class="column"  float: right; width: 50%;></div>
     Some text
 </div>
-
+</body>
 
 ## ROACH2 FPGA ##
 
