@@ -10,11 +10,11 @@ Processing the measured signals requires an FPGA. Holography at UChicago uses th
 
 The FPGA is powered via a standard power supply cable. The ROACH2 is programmed via Ethernet connection.  For installation instructions, see the [Casper ROACH2 repository](https://github.com/casper-astro/casper-hardware/tree/master/FPGA_Hosts/ROACH2). Once installed, see [holog-exp/software](https://github.com/McMahonCosmologyGroup/holog-exp/tree/main/software) for tutorials and software for data acquisition.
 
-![Closer look at the ROACH2 FPGA.](photos/roach.jpg "A closer look at the ROACH2.")
+<img src = 'photos/roach.jpg' alt="centered image" >
 
 ## Supporting Equipment ##
 
-All [datasheets](https://github.com/McMahonCosmologyGroup/holog-exp/tree/main/hardware/datasheets) are provided.
+All [datasheets](https://github.com/McMahonCosmologyGroup/holog-exp/tree/main/hardware/Supporting_Equipment/Datasheets) are provided.
 
 - [Cables](Supporting_Equipment/Equipment_cables.md)
 - [Signal Management](Supporting_Equipment/Signal_management.md)

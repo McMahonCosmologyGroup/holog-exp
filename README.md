@@ -1,5 +1,6 @@
 # Open Source Holography
 Author: Grace E. Chesmore
+Email: [chesmore@uchicago.edu](mailto:chesmore@uchicago.edu)
 
 ## Background
 Radio-frequency holography measures the electric field with a moving probe, and maps the propagation of the field through space using the measured phase information.  This repository is an open-source guide to building a holographic imaging seutp for millimeter-wave experiments.
