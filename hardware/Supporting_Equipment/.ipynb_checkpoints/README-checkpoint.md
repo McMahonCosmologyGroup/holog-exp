@@ -1,6 +1,8 @@
 # Hardware #
 
 ## Source and Receiver
+All source and receiver electronics are listed in the table below.  The specifications column either details the waveguide side (WRx) or the product ID.
+
 |   Item        |   Manufacturer   |   Number  |  Specifications  |
 | --------------------- | ----- | -----| ----|
 | WM Harmonic Mixer | Pacific Millimeter Products | 1 |  WR8  |
@@ -14,6 +16,8 @@
 | Signal Synthesizer | Mercury Systems | 2 |  DS3000  |
 
 ## Waveguides
+Waveguides are used to connect receiver electronics to the telescope readout, and are also used to extend the source signal closer to the telescope window.  The specifications column details the waveguide side (WRx) or the transition waveguide ID.
+
 |   Item        |   Manufacturer   |   Number  |  Specifications  |
 | --------------------- | ----- | -----| ----|
 | Rectangular Horn | Custom Microwave Incorporated | 1 |  WR10  |
@@ -48,5 +52,5 @@ This table lists the power supplies required to power the holography experiment.
 | 40dB Amplifier  | 28VCC  | 3.4A | Microwave Dynamics  |
 | 40dB Amplifier  | 12VCC  | 1.0A | Microwave Dynamics  |
 | 40dB Amplifier  | 12VCC  | 1.0A | RF-Lambda |
-| RedHat Desktop   | / | / | Standard |
-| Casper ROACH2 FPGA    | / | / | Standard |
+| RedHat Desktop   |  - |  - | Standard |
+| Casper ROACH2 FPGA    | -  |  - | Standard |
