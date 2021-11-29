@@ -1,4 +1,4 @@
-# Open Source Holography :telescope:
+# Open Source Holography :sound:
 Author: Grace E. Chesmore
 
 Email: [chesmore@uchicago.edu](mailto:chesmore@uchicago.edu)
