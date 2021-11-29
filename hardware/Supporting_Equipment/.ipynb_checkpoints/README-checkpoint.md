@@ -1,5 +1,11 @@
 # Hardware #
 
+This README lists all hardware used for holography measurements, and make reference to, the following:
+1. [Source and Receiver](#source-and-receiver)
+2. [Waveguides](#waveguides)
+3. [Correlator Electronics](#correlator-electronics)
+
+
 ## Source and Receiver
 All source and receiver electronics are listed in the table below.  The specifications column either details the waveguide side (WRx) or the product ID.
 
@@ -14,6 +20,14 @@ All source and receiver electronics are listed in the table below.  The specific
 | Variable Attenuator | Millimeter-Wave Technology & Solutions | 1 |  WR10  |
 | Variable Attenuator | Custom Microwave Incorporated | 1 |  WR6  |
 | Signal Synthesizer | Mercury Systems | 2 |  DS3000  |
+
+### Signal Management
+
+Two synthesizers from [Mercury](https://www.mrcy.com/) specify the frequency output of the source. The exact model used is the [DS-3000 MICROWAVE SYNTHESIZER](https://www.mrcy.com/products/rf-and-mixed-signal/signal-sources/ds-3000-microwave-synthesizer).  The synthesizers are controlled with USB.
+
+The frequency from the synthesizers is sent to the source, which is a [Virginia Diodes](https://www.vadiodes.com/en/products/custom-transmitters) 75-170 GHz Modular Transmitter (S/N:Tx 182).  The source actively multiplies the signal to the desired frequency range. 
+
+Two [harmonic mixers](http://pacificmillimeter.com/HarmonicMixers.html) mix the signals (one signal modulated, the other non-modulated), generating two interference frequencies.  These interference frequencies are then correlated by the ROACH FPGA which outputs the amplitude and phase information. 
 
 ## Waveguides
 Waveguides are used to connect receiver electronics to the telescope readout, and are also used to extend the source signal closer to the telescope window.  The specifications column details the waveguide side (WRx) or the transition waveguide ID.
