@@ -42,7 +42,7 @@ Waveguides are used to connect receiver electronics to the telescope readout, an
 
 ## Correlator Electronics
 |   Item        |   Manufacturer   |   Number  |  LO chain  |
-| --------------------- | ----- | -----| ----|
+| --------------------- | ----- | -----| ---- |
 | 40dB Amplifier | Microwave Dynamics | 1 |  LO2  |
 | 40dB Amplifier | RF-Lambda | 1 |  LO1  |
 | 3dB Amplifier | RF-Lambda | 1 |  LO1  |
@@ -51,7 +51,7 @@ Waveguides are used to connect receiver electronics to the telescope readout, an
 | Low-pass Filter | Pasternack | 2 |  1/LO chain  |
 | 16dB Isolator | Pasternack | 10 |  5/LO chain  |
 | 1N4001 Diode | Pasternack | 2 |  1/LO chain  |
-| 100 uF Capacitor | Pasternack | 2 |  1/LO chain  |
+| 0.1uF Capacitor | Pasternack | 2 |  1/LO chain  |
 | 2.4K Resistor | Pasternack | 2 |  1/LO chain  |
 
 ## Power Supplies
