@@ -5,17 +5,18 @@ Designed for use with TUT4 at the 2009 CASPER workshop.
 Grace E. Chesmore, August 2021
 """
 
-import struct
 import logging
+import struct
+import sys
 import time
 from optparse import OptionParser
-import sys
+
+import casperfpga
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-import casperfpga
-import synth
 import poco
+import synth
 
 plt.style.use("ggplot")
 
@@ -25,6 +26,7 @@ def running_mean(arr, num):
     Convolves an array with a given integer.
     """
     return np.convolve(arr, np.ones((num,)) / num)[(num - 1) :]
+
 
 class RoachOpt:
     """
@@ -40,6 +42,7 @@ class RoachOpt:
     l_mean = 1
     N_TO_AVG = 1
     window = 1
+
 
 def get_data(baseline, fpga):
     """
@@ -89,6 +92,7 @@ def get_data(baseline, fpga):
         interleave_auto_a,
         interleave_auto_b,
     )
+
 
 def roach2_init():
     """
@@ -151,6 +155,7 @@ def roach2_init():
         bit_stream = RoachOpt.BITSTREAM
     return roach, opts, bit_stream
 
+
 def roach2_connect(ROACH_IP):
     loggers = []
     lh = poco.DebugLogHandler()
@@ -173,6 +178,7 @@ def roach2_connect(ROACH_IP):
 
     return fpga
 
+
 def data_callback_peak(baseline, fpga, syn, LOs):
     """
     Print real-time signal measurement from ROACH.
@@ -185,10 +191,10 @@ def data_callback_peak(baseline, fpga, syn, LOs):
     synth.set_f(0, syn.freq, syn, LOs)
     synth.set_f(1, int(syn.freq + syn.freq_offset), syn, LOs)
 
-    peak_guess = (1024/125)*(syn.N * syn.freq_offset)
+    peak_guess = (1024 / 125) * (syn.N * syn.freq_offset)
 
-    IGNORE_PEAKS_BELOW = int(peak_guess-50)
-    IGNORE_PEAKS_ABOVE = int(peak_guess+50)
+    IGNORE_PEAKS_BELOW = int(peak_guess - 50)
+    IGNORE_PEAKS_ABOVE = int(peak_guess + 50)
 
     (
         acc_n,
@@ -221,6 +227,7 @@ def data_callback_peak(baseline, fpga, syn, LOs):
         index_signal = arr_index_signal[0]
 
     return index_signal
+
 
 def draw_data_callback(baseline, fpga, syn, LOs, fig):
     """
@@ -275,6 +282,7 @@ def draw_data_callback(baseline, fpga, syn, LOs, fig):
     )
     plt.show()
 
+
 def TakeAvgData(baseline, fpga):
     """
     Averages each FPGA channel, AA, AB, and BB.
@@ -317,6 +325,7 @@ def TakeAvgData(baseline, fpga):
     arr_index = arr_2D_index.mean(axis=0)
 
     return arr_aa, arr_bb, arr_ab, arr_phase, arr_index
+
 
 def drawDataCallback(baseline, fpga):
     """

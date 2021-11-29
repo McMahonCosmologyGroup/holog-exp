@@ -5,9 +5,10 @@ July 19, 2021
 """
 
 
-import time
-import sys
 import logging
+import sys
+import time
+
 import casperfpga
 import fpga_daq
 import poco

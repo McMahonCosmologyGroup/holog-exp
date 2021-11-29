@@ -1,26 +1,27 @@
-import casperfpga
-import time
-import numpy
+import array
+import datetime
+import getpass
+import logging
+import os
 import struct
 import sys
-import logging
-import array
-import os
+import time
+
+import casperfpga
+import matplotlib
+import numpy
 import numpy as np
-import datetime
 import serial
 import usb.core
 import usb.util
-import datetime
-import getpass
-import matplotlib
 
 matplotlib.use("TkAgg")  # do this before importing pylab
+from optparse import OptionParser
+
+import fpga_daq
 import matplotlib.pyplot as plt
 import poco
 import synth
-import fpga_daq
-from optparse import OptionParser
 
 # import xy_agent.xy_connect as stage
 # from xy_agent.xy_scan import XY_Scan

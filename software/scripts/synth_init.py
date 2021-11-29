@@ -4,10 +4,9 @@ Grace E. Chesmore
 July 19, 2021
 """
 
-import usb.core
 import numpy as np
 import synth
-
+import usb.core
 
 N = 9
 F_TEST = 95  # GHz

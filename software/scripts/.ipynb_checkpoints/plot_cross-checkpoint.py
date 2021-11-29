@@ -10,19 +10,20 @@ Modified: Grace E. Chesmore, August 2021
 """
 
 
-import time
-import sys
 import logging
+import sys
+import time
 from optparse import OptionParser
-import usb.core
+
 import matplotlib
+import usb.core
 
 matplotlib.use("TkAgg")  # do this before importing pylab
-import matplotlib.pyplot as plt
 import casperfpga
-import synth
 import fpga_daq
+import matplotlib.pyplot as plt
 import poco
+import synth
 
 # Added by Charlie 2019-11-04
 YLIM_LO = 1.0e8

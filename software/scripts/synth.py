@@ -4,9 +4,10 @@ Grace E. Chesmore
 July 19, 2021
 """
 import struct
-import usb.core
+
 import numpy as np
 import synth
+import usb.core
 
 
 class SynthOpt:
@@ -18,7 +19,8 @@ class SynthOpt:
     endpoint_hex = 0x02
     freq = 0
     freq_offset = 5  # MHz
-    N=0
+    N = 0
+
 
 def set_rf_output(device, state, syn, los):
     """
@@ -34,6 +36,7 @@ def set_rf_output(device, state, syn, los):
     data[3] = state
     los[int(device)].write(syn.endpoint_dec, data)
 
+
 def reset_rf(device, syn):
     """
     for state, e.g. '1' for command '0x02' will turn ON the RF output.
@@ -48,6 +51,7 @@ def reset_rf(device, syn):
     data[3] = 0x00  # state
     device.write(syn.endpoint_dec, data)
 
+
 def set_100_output(device, state, syn):
     """
     for state, e.g. '1' for command '0x02' will turn ON the RF output.
@@ -61,6 +65,7 @@ def set_100_output(device, state, syn):
     data[2] = n_command
     data[3] = state
     device.write(syn.endpoint_dec, str(data))
+
 
 def synth_connect():
 
@@ -81,6 +86,7 @@ def synth_connect():
         LOs[ID].set_configuration()
 
     return LOs
+
 
 def set_f(device, freq, syn, los):
     """

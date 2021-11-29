@@ -6,9 +6,10 @@ Grace E. Chesmore, August 2021
 """
 
 import struct
+import sys
 import time
 from optparse import OptionParser
-import sys
+
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np

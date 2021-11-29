@@ -10,16 +10,18 @@ Modified: Grace E. Chesmore, August 2021
 """
 
 
-import time
 import sys
-import usb.core
+import time
+
 import matplotlib
+import usb.core
+
 matplotlib.use("TkAgg")  # do this before importing pylab
-import matplotlib.pyplot as plt
 import casperfpga
-import synth
 import fpga_daq
+import matplotlib.pyplot as plt
 import poco
+import synth
 
 # Added by Charlie 2019-11-04
 YLIM_LO = 1.0e8
@@ -58,7 +60,7 @@ try:
     fig.canvas.manager.window.after(
         100, fpga_daq.draw_data_callback, baseline, fpga, synth.SynthOpt, LOs, fig
     )
-    print(peak-100)
+    print(peak - 100)
     plt.xlim(peak - 100, peak + 100)
     plt.show()
     print("Plotting complete. Exiting...")

@@ -1,22 +1,24 @@
-import casperfpga
-import time
-import numpy
+import array
+import datetime
+import getpass
+import logging
+import os
 import struct
 import sys
-import logging
-import array
-import os
+import time
+
+import casperfpga
+import matplotlib
+import numpy
 import numpy as np
-import datetime
 import serial
 import usb.core
 import usb.util
-import datetime
-import getpass
-import matplotlib
+
 matplotlib.use('TkAgg') # do this before importing pylab
 import matplotlib.pyplot as plt
 import xy_agent.xy_connect as stage
+
 stage_xy = stage.XY_Stage.latrt_xy_stage()
 
 stage_xy.enable()
