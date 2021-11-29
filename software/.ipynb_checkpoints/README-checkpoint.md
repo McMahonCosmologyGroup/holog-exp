@@ -11,7 +11,7 @@ This README will outline, and make reference to, the following:
 
 Operational [scripts](scripts/) for how to operate the holography experiment are available on the McMahonGroupLab github page.
 * Syntonic synthesizer [operations](scripts/synth.py) and [initialization](scripts/synth_init.py).
-* ROACH2 FPGA [operations](scripts/poco.py), [initialization](scripts/poco_init.py) and [real-time signal readout](scripts/plot_cross.py).
+* ROACH2 FPGA [operations](scripts/poco.py), [initialization](scripts/poco_init.py) and [real-time signal readout](scripts/plot_cross_phase.py).
 * Saving to datafiles and further analysis.
 
 ## ROACH2 FPGA ##
@@ -42,14 +42,14 @@ Python packages (for complete experiment):
 * time
 * numpy
 * struct
+* serial
+* usb.core, usb.util
 * sys
 * logging
 * datetime
 * serial
-* os
 * array
 * matplotlib
-* getpass
 * optparse
 
 ## Contributing ##
