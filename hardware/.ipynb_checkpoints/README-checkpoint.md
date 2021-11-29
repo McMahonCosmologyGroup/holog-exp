@@ -6,7 +6,7 @@ This README will outline, and make reference to, the following:
 
 The schematic below serves as an example setup for performing holography. This is also the setup used at the University of Chicago in 2021. The layout can be adapted depending on the device being tested.  For example, if the device being tested is so large that many SMA coax's are required to reach the source to the device, an amplifier can be added after the LO chain to ensure adequate power is reaching the Harmonic Mixer at the source, etc.
 
-<img src = 'photos/rf_holog.png' alt="RF Holography Setup" width="90%">
+<img src = 'photos/rf_holog.png' alt="RF Holography Setup" width="100%">
 
 ## ROACH2 FPGA ##
 
