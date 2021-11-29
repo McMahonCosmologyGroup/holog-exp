@@ -27,3 +27,9 @@ This table lists the power supplies required to power the holography experiment.
 | --------------------- | ----- | ---- | --- |
 | Casper ROACH2 FPGA    | / | / | Standard |
 | --------------------- | ----- | ---- | --- |
+
+| Left-Aligned  | Center Aligned  | Right Aligned |
+| :------------ |:---------------:| -----:|
+| col 3 is      | some wordy text | $1600 |
+| col 2 is      | centered        |   $12 |
+| zebra stripes | are neat        |    $1 |
