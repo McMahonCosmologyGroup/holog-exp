@@ -40,9 +40,13 @@
 
 This table lists the power supplies required to power the holography experiment.
 
-|   Item powered        |   V   |   I  |     |
+|   Item powered        |   V   |   I  |  Note   |
 | --------------------- | ----- | -----| ----|
-| Syntonic syntheiszers | 12VCC | 1.5A |     |
-| RF Lambda 3dB Amp.    | 4VCC  | 0.9A | Amplifies LO1  |
+| Signal Synthesizer | 12VCC | 1.5A | LO1 |
+| Signal Synthesizer | 12VCC | 1.5A | LO2 |
+| 3dB Amplifier    | 4VCC  | 0.9A | Amplifies LO1  |
+| 40dB Amplifier  | 28VCC  | 3.4A | Microwave Dynamics  |
+| 40dB Amplifier  | 12VCC  | 1.0A | Microwave Dynamics  |
+| 40dB Amplifier  | 12VCC  | 1.0A | RF-Lambda |
 | RedHat Desktop   | / | / | Standard |
 | Casper ROACH2 FPGA    | / | / | Standard |
