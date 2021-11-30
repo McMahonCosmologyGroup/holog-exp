@@ -12,8 +12,6 @@ The schematic below serves as an example setup for performing holography. This i
 
 All [datasheets](https://github.com/McMahonCosmologyGroup/holog-exp/tree/main/hardware/Supporting_Equipment/Datasheets) are provided.  While the listed RF componants are not custom made for the purposes of holography and substitutions may be appropriate, we do recommend that the user check the spec sheets to match performance of each product when building their holographic imaging setup.  
 
-- [Signal Management](Supporting_Equipment/Signal_management.md)
-
 ## ROACH2 FPGA ##
 
 Processing the measured signals requires an FPGA. Holography at UChicago uses the Casper ROACHH2 board. ROACH stands for Reconfigurable Open Architecture Computing Hardware.  The full hardware specifications can be found at the [Casper ROACH2 public repository](https://github.com/casper-astro/casper-hardware/tree/master/FPGA_Hosts/ROACH2). 
